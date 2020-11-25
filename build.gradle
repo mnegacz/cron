@@ -22,6 +22,14 @@ test {
   useJUnitPlatform()
 }
 
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'net.negacz.cron.Entrypoint'
+    )
+  }
+}
+
 spotless {
   java {
     googleJavaFormat()
