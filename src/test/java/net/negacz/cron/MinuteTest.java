@@ -25,4 +25,13 @@ class MinuteTest {
 
     assertThat(result).isEqualTo(Minute.ofValues(1, 15));
   }
+
+  @Test
+  void parsesRangeExpression() {
+    val expression = "1-3";
+
+    val result = Minute.ofExpression(expression);
+
+    assertThat(result).isEqualTo(Minute.ofValues(1, 2, 3));
+  }
 }
