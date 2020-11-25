@@ -5,6 +5,7 @@ import static java.util.Collections.unmodifiableSortedSet;
 import static java.util.stream.Collectors.joining;
 import static lombok.AccessLevel.PRIVATE;
 
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -19,12 +20,19 @@ import lombok.val;
 class Minute {
 
   private static final int MAX_COLUMNS_NUMBER = 14;
+  private static final String COMMA = ",";
+
   private final Set<Integer> values;
 
   static Minute ofExpression(String expression) {
     val values = new TreeSet<Integer>();
-    val value = Integer.parseInt(expression);
-    values.add(value);
+    val subexpressions = new ArrayList<String>();
+    if (expression.contains(COMMA)) {
+      subexpressions.addAll(asList(expression.split(COMMA)));
+    } else {
+      subexpressions.add(expression);
+    }
+    subexpressions.stream().map(Integer::parseInt).forEach(values::add);
     return ofValues(values);
   }
 
@@ -43,6 +51,6 @@ class Minute {
     return values.stream()
         .limit(MAX_COLUMNS_NUMBER)
         .map(Object::toString)
-        .collect(joining("minute", " ", ""));
+        .collect(joining(" ", "minute ", ""));
   }
 }

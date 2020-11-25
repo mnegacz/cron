@@ -19,10 +19,10 @@ class CronTest {
 
   @Test
   void formatsMinuteField() {
-    val cron = Cron.ofExpression("15 0 1,15 * 1-5 /usr/bin/find");
+    val cron = Cron.ofExpression("1,15 0 1,15 * 1-5 /usr/bin/find");
 
     val result = cron.asFormattedFieldString();
 
-    assertThat(result).contains("minute 15");
+    assertThat(result).contains("minute 1 15");
   }
 }

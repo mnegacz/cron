@@ -16,4 +16,13 @@ class MinuteTest {
 
     assertThat(result).isEqualTo(Minute.ofValues(1));
   }
+
+  @Test
+  void parsesCommaSeparatedExpression() {
+    val expression = "1,15";
+
+    val result = Minute.ofExpression(expression);
+
+    assertThat(result).isEqualTo(Minute.ofValues(1, 15));
+  }
 }
