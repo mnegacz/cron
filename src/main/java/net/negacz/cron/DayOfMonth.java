@@ -8,21 +8,19 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import lombok.val;
 
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
-class Minute extends Field {
+class DayOfMonth extends Field {
 
-  static final int MIN_VALUE = 0;
-  static final int MAX_VALUE = 59;
+  static final int MIN_VALUE = 1;
+  static final int MAX_VALUE = 31;
 
-  public Minute(Set<Integer> values) {
+  private DayOfMonth(Set<Integer> values) {
     super(values);
   }
 
-  static Minute ofExpression(String expression) {
+  static DayOfMonth ofExpression(String expression) {
     val values = new TreeSet<Integer>();
     Expression.of(expression, MIN_VALUE, MAX_VALUE)
         .split()
@@ -31,19 +29,19 @@ class Minute extends Field {
     return ofValues(values);
   }
 
-  static Minute ofValues(int... values) {
+  static DayOfMonth ofValues(int... values) {
     val copy = IntStream.of(values).boxed().collect(toUnmodifiableList());
     return ofValues(copy);
   }
 
-  static Minute ofValues(Collection<Integer> values) {
+  static DayOfMonth ofValues(Collection<Integer> values) {
     val copy = new TreeSet<>(values);
     val unmodifiableCopy = unmodifiableSortedSet(copy);
-    return new Minute(unmodifiableCopy);
+    return new DayOfMonth(unmodifiableCopy);
   }
 
   @Override
   String fieldName() {
-    return "minute       ";
+    return "day of month ";
   }
 }

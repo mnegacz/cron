@@ -23,15 +23,24 @@ class CronTest {
 
     val result = cron.asFormattedFieldString();
 
-    assertThat(result).contains("minute 1 2 3 4");
+    assertThat(result).contains("minute       1 2 3 4");
   }
 
   @Test
   void formatsHourField() {
-    val cron = Cron.ofExpression("1 5,6,7-8 1,15 * 1-5 /usr/bin/find");
+    val cron = Cron.ofExpression("0 1,2,3-4 1,15 * 1-5 /usr/bin/find");
 
     val result = cron.asFormattedFieldString();
 
-    assertThat(result).contains("hour   5 6 7 8");
+    assertThat(result).contains("hour         1 2 3 4");
+  }
+
+  @Test
+  void formatsDayOfMonthField() {
+    val cron = Cron.ofExpression("0 0 1,2,3-4 * 1-5 /usr/bin/find");
+
+    val result = cron.asFormattedFieldString();
+
+    assertThat(result).contains("day of month 1 2 3 4");
   }
 }

@@ -1,10 +1,9 @@
 package net.negacz.cron;
 
-import lombok.RequiredArgsConstructor;
+import static lombok.AccessLevel.PRIVATE;
 
 import java.util.stream.Stream;
-
-import static lombok.AccessLevel.PRIVATE;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(access = PRIVATE)
 class Expression {
@@ -22,7 +21,7 @@ class Expression {
   Stream<Subexpression> split() {
     if (expression.contains(COMMA)) {
       return Stream.of(expression.split(COMMA))
-        .map(subexpression -> Subexpression.of(subexpression, minValue, maxValue));
+          .map(subexpression -> Subexpression.of(subexpression, minValue, maxValue));
     }
     return Stream.of(Subexpression.of(expression, minValue, maxValue));
   }
