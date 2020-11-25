@@ -1,28 +1,27 @@
 package net.negacz.cron;
 
-import static java.util.Collections.unmodifiableSortedSet;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toUnmodifiableList;
-import static lombok.AccessLevel.PRIVATE;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.val;
 
 import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import lombok.val;
 
-@RequiredArgsConstructor(access = PRIVATE)
-@EqualsAndHashCode
+import static java.util.Collections.unmodifiableSortedSet;
+import static java.util.stream.Collectors.toUnmodifiableList;
+
+@EqualsAndHashCode(callSuper = true)
 @ToString
-class Hour implements Field {
+class Hour extends Field {
 
   static final int MIN_VALUE = 0;
   static final int MAX_VALUE = 23;
 
-  private final Set<Integer> values;
+  private Hour(Set<Integer> values) {
+    super(values);
+  }
 
   static Hour ofExpression(String expression) {
     val values = new TreeSet<Integer>();
@@ -45,10 +44,7 @@ class Hour implements Field {
   }
 
   @Override
-  public String asFormattedFirst14SpaceSeparatedValues() {
-    return values.stream()
-        .limit(MAX_COLUMNS_NUMBER)
-        .map(Object::toString)
-        .collect(joining(" ", "hour   ", ""));
+  String fieldName() {
+    return "hour   ";
   }
 }
