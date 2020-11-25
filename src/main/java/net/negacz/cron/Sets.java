@@ -1,5 +1,6 @@
 package net.negacz.cron;
 
+import static java.util.Collections.singleton;
 import static java.util.Collections.unmodifiableSortedSet;
 import static java.util.stream.Collectors.toUnmodifiableList;
 
@@ -16,7 +17,11 @@ class Sets {
     return sortedSetOf(collection);
   }
 
-  static SortedSet<Integer> sortedSetOf(Collection<Integer> values) {
+  static <T> SortedSet<T> sortedSetOf(Collection<T> values) {
     return unmodifiableSortedSet(new TreeSet<>(values));
+  }
+
+  static <T> SortedSet<T> sortedSetOf(T value) {
+    return sortedSetOf(singleton(value));
   }
 }

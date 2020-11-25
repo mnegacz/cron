@@ -61,4 +61,13 @@ class CronTest {
 
     assertThat(result).contains("day of week  1 2 3 4");
   }
+
+  @Test
+  void formatsCommandField() {
+    val cron = Cron.ofExpression("0 0 1 0 0 /usr/bin/find");
+
+    val result = cron.asFormattedFieldString();
+
+    assertThat(result).contains("command      /usr/bin/find");
+  }
 }

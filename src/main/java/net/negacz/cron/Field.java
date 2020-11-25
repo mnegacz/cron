@@ -14,7 +14,7 @@ abstract class Field {
 
   int MAX_COLUMNS_NUMBER = 14;
 
-  private final SortedSet<Integer> values;
+  private final SortedSet<?> values;
 
   String asFormattedFirst14SpaceSeparatedValues() {
     return values.stream()
