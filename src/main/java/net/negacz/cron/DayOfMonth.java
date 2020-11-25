@@ -1,12 +1,9 @@
 package net.negacz.cron;
 
-import static java.util.Collections.unmodifiableSortedSet;
-import static java.util.stream.Collectors.toUnmodifiableList;
+import static net.negacz.cron.Parser.parse;
+import static net.negacz.cron.Sets.sortedSetOf;
 
-import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.IntStream;
+import java.util.SortedSet;
 import lombok.EqualsAndHashCode;
 import lombok.val;
 
@@ -16,28 +13,17 @@ class DayOfMonth extends Field {
   static final int MIN_VALUE = 1;
   static final int MAX_VALUE = 31;
 
-  private DayOfMonth(Set<Integer> values) {
+  private DayOfMonth(SortedSet<Integer> values) {
     super(values);
   }
 
   static DayOfMonth ofExpression(String expression) {
-    val values = new TreeSet<Integer>();
-    Expression.of(expression, MIN_VALUE, MAX_VALUE)
-        .split()
-        .flatMapToInt(Subexpression::asIntStream)
-        .forEach(values::add);
-    return ofValues(values);
+    val values = parse(expression, MIN_VALUE, MAX_VALUE);
+    return new DayOfMonth(sortedSetOf(values));
   }
 
   static DayOfMonth ofValues(int... values) {
-    val copy = IntStream.of(values).boxed().collect(toUnmodifiableList());
-    return ofValues(copy);
-  }
-
-  static DayOfMonth ofValues(Collection<Integer> values) {
-    val copy = new TreeSet<>(values);
-    val unmodifiableCopy = unmodifiableSortedSet(copy);
-    return new DayOfMonth(unmodifiableCopy);
+    return new DayOfMonth(sortedSetOf(values));
   }
 
   @Override
