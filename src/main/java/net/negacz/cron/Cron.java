@@ -10,10 +10,12 @@ import lombok.val;
 @RequiredArgsConstructor(access = PRIVATE)
 class Cron {
 
-  static final String FIELD_SEPARATOR = " ";
   private static final String ROW_SEPARATOR = "\n";
 
+  static final String FIELD_SEPARATOR = " ";
+
   private final Minute minute;
+  private final Hour hour;
 
   static Cron ofExpression(String expression) {
     val fields = expression.split(FIELD_SEPARATOR);
@@ -22,12 +24,13 @@ class Cron {
           "Cron expression doesn't contain required fields: (minute) (hour) (day of month) (month) (day of week) (command)");
     }
     val minute = Minute.ofExpression(fields[0]);
-    return new Cron(minute);
+    val hour = Hour.ofExpression(fields[1]);
+    return new Cron(minute, hour);
   }
 
   String asFormattedFieldString() {
-    return Stream.of(minute)
-        .map(Minute::asFormattedFirst14SpaceSeparatedValues)
+    return Stream.of(minute, hour)
+        .map(Field::asFormattedFirst14SpaceSeparatedValues)
         .collect(joining(ROW_SEPARATOR));
   }
 }

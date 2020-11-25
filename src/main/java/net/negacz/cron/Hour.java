@@ -18,16 +18,16 @@ import lombok.val;
 @RequiredArgsConstructor(access = PRIVATE)
 @EqualsAndHashCode
 @ToString
-class Minute implements Field {
+class Hour implements Field {
 
   static final int MIN_VALUE = 0;
-  static final int MAX_VALUE = 59;
+  static final int MAX_VALUE = 23;
 
   private static final String COMMA = ",";
 
   private final Set<Integer> values;
 
-  static Minute ofExpression(String expression) {
+  static Hour ofExpression(String expression) {
     val values = new TreeSet<Integer>();
     splitByComma(expression).flatMapToInt(Subexpression::asIntStream).forEach(values::add);
     return ofValues(values);
@@ -41,15 +41,15 @@ class Minute implements Field {
     return Stream.of(Subexpression.of(expression, MIN_VALUE, MAX_VALUE));
   }
 
-  static Minute ofValues(int... values) {
+  static Hour ofValues(int... values) {
     val copy = IntStream.of(values).boxed().collect(toUnmodifiableList());
     return ofValues(copy);
   }
 
-  static Minute ofValues(Collection<Integer> values) {
+  static Hour ofValues(Collection<Integer> values) {
     val copy = new TreeSet<>(values);
     val unmodifiableCopy = unmodifiableSortedSet(copy);
-    return new Minute(unmodifiableCopy);
+    return new Hour(unmodifiableCopy);
   }
 
   @Override
@@ -57,6 +57,6 @@ class Minute implements Field {
     return values.stream()
         .limit(MAX_COLUMNS_NUMBER)
         .map(Object::toString)
-        .collect(joining(" ", "minute ", ""));
+        .collect(joining(" ", "hour   ", ""));
   }
 }
