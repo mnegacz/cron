@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -23,22 +22,15 @@ class Hour implements Field {
   static final int MIN_VALUE = 0;
   static final int MAX_VALUE = 23;
 
-  private static final String COMMA = ",";
-
   private final Set<Integer> values;
 
   static Hour ofExpression(String expression) {
     val values = new TreeSet<Integer>();
-    splitByComma(expression).flatMapToInt(Subexpression::asIntStream).forEach(values::add);
+    Expression.of(expression, MIN_VALUE, MAX_VALUE)
+      .split()
+      .flatMapToInt(Subexpression::asIntStream)
+      .forEach(values::add);
     return ofValues(values);
-  }
-
-  private static Stream<Subexpression> splitByComma(String expression) {
-    if (expression.contains(COMMA)) {
-      return Stream.of(expression.split(COMMA))
-          .map(subexpression -> Subexpression.of(subexpression, MIN_VALUE, MAX_VALUE));
-    }
-    return Stream.of(Subexpression.of(expression, MIN_VALUE, MAX_VALUE));
   }
 
   static Hour ofValues(int... values) {
