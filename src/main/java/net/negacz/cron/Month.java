@@ -12,6 +12,8 @@ import lombok.val;
 @ToString(callSuper = true)
 class Month extends Field {
 
+  private static final String FIELD_NAME = "month        ";
+
   static final int MIN_VALUE = 1;
   static final int MAX_VALUE = 12;
 
@@ -20,8 +22,12 @@ class Month extends Field {
   }
 
   static Month ofExpression(String expression) {
-    val values = parse(expression, MIN_VALUE, MAX_VALUE);
-    return new Month(sortedSetOf(values));
+    try {
+      val values = parse(expression, MIN_VALUE, MAX_VALUE);
+      return new Month(sortedSetOf(values));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(FIELD_NAME + e.getMessage(), e);
+    }
   }
 
   static Month ofValues(int... values) {
@@ -30,6 +36,6 @@ class Month extends Field {
 
   @Override
   String fieldName() {
-    return "month        ";
+    return FIELD_NAME;
   }
 }

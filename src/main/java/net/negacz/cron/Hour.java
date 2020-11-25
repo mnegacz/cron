@@ -12,6 +12,8 @@ import lombok.val;
 @ToString(callSuper = true)
 class Hour extends Field {
 
+  private static final String FIELD_NAME = "hour         ";
+
   static final int MIN_VALUE = 0;
   static final int MAX_VALUE = 23;
 
@@ -20,8 +22,12 @@ class Hour extends Field {
   }
 
   static Hour ofExpression(String expression) {
-    val values = parse(expression, MIN_VALUE, MAX_VALUE);
-    return new Hour(sortedSetOf(values));
+    try {
+      val values = parse(expression, MIN_VALUE, MAX_VALUE);
+      return new Hour(sortedSetOf(values));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(FIELD_NAME + e.getMessage(), e);
+    }
   }
 
   static Hour ofValues(int... values) {
@@ -30,6 +36,6 @@ class Hour extends Field {
 
   @Override
   String fieldName() {
-    return "hour         ";
+    return FIELD_NAME;
   }
 }

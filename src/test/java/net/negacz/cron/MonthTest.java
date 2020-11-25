@@ -19,11 +19,11 @@ class MonthTest {
 
   @Test
   void parsesCommaSeparatedExpression() {
-    val expression = "1,15";
+    val expression = "1,12";
 
     val result = Month.ofExpression(expression);
 
-    assertThat(result).isEqualTo(Month.ofValues(1, 15));
+    assertThat(result).isEqualTo(Month.ofValues(1, 12));
   }
 
   @Test

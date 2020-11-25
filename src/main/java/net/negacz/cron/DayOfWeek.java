@@ -10,6 +10,8 @@ import lombok.val;
 @EqualsAndHashCode(callSuper = true)
 class DayOfWeek extends Field {
 
+  private static final String FIELD_NAME = "day of week  ";
+
   static final int MIN_VALUE = 0;
   static final int MAX_VALUE = 6;
 
@@ -18,8 +20,12 @@ class DayOfWeek extends Field {
   }
 
   static DayOfWeek ofExpression(String expression) {
-    val values = parse(expression, MIN_VALUE, MAX_VALUE);
-    return new DayOfWeek(sortedSetOf(values));
+    try {
+      val values = parse(expression, MIN_VALUE, MAX_VALUE);
+      return new DayOfWeek(sortedSetOf(values));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(FIELD_NAME + e.getMessage(), e);
+    }
   }
 
   static DayOfWeek ofValues(int... values) {
@@ -28,6 +34,6 @@ class DayOfWeek extends Field {
 
   @Override
   String fieldName() {
-    return "day of week  ";
+    return FIELD_NAME;
   }
 }

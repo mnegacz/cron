@@ -12,6 +12,8 @@ import lombok.val;
 @ToString(callSuper = true)
 class Minute extends Field {
 
+  private static final String FIELD_NAME = "minute       ";
+
   static final int MIN_VALUE = 0;
   static final int MAX_VALUE = 59;
 
@@ -20,8 +22,12 @@ class Minute extends Field {
   }
 
   static Minute ofExpression(String expression) {
-    val values = parse(expression, MIN_VALUE, MAX_VALUE);
-    return new Minute(sortedSetOf(values));
+    try {
+      val values = parse(expression, MIN_VALUE, MAX_VALUE);
+      return new Minute(sortedSetOf(values));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(FIELD_NAME + e.getMessage(), e);
+    }
   }
 
   static Minute ofValues(int... values) {
@@ -30,6 +36,6 @@ class Minute extends Field {
 
   @Override
   String fieldName() {
-    return "minute       ";
+    return FIELD_NAME;
   }
 }

@@ -19,11 +19,11 @@ class DayOfWeekTest {
 
   @Test
   void parsesCommaSeparatedExpression() {
-    val expression = "1,15";
+    val expression = "1,6";
 
     val result = DayOfWeek.ofExpression(expression);
 
-    assertThat(result).isEqualTo(DayOfWeek.ofValues(1, 15));
+    assertThat(result).isEqualTo(DayOfWeek.ofValues(1, 6));
   }
 
   @Test

@@ -55,7 +55,7 @@ class CronTest {
 
   @Test
   void formatsDayOfWeekField() {
-    val cron = Cron.ofExpression("0 0 1 0 1,2,3-4 /usr/bin/find");
+    val cron = Cron.ofExpression("0 0 1 1 1,2,3-4 /usr/bin/find");
 
     val result = cron.asFormattedFieldString();
 
@@ -64,7 +64,7 @@ class CronTest {
 
   @Test
   void formatsCommandField() {
-    val cron = Cron.ofExpression("0 0 1 0 0 /usr/bin/find");
+    val cron = Cron.ofExpression("0 0 1 1 0 /usr/bin/find");
 
     val result = cron.asFormattedFieldString();
 

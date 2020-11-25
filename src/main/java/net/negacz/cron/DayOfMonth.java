@@ -10,6 +10,8 @@ import lombok.val;
 @EqualsAndHashCode(callSuper = true)
 class DayOfMonth extends Field {
 
+  private static final String FIELD_NAME = "day of month ";
+
   static final int MIN_VALUE = 1;
   static final int MAX_VALUE = 31;
 
@@ -18,8 +20,12 @@ class DayOfMonth extends Field {
   }
 
   static DayOfMonth ofExpression(String expression) {
-    val values = parse(expression, MIN_VALUE, MAX_VALUE);
-    return new DayOfMonth(sortedSetOf(values));
+    try {
+      val values = parse(expression, MIN_VALUE, MAX_VALUE);
+      return new DayOfMonth(sortedSetOf(values));
+    } catch (IllegalArgumentException e) {
+      throw new IllegalArgumentException(FIELD_NAME + e.getMessage(), e);
+    }
   }
 
   static DayOfMonth ofValues(int... values) {
@@ -28,6 +34,6 @@ class DayOfMonth extends Field {
 
   @Override
   String fieldName() {
-    return "day of month ";
+    return FIELD_NAME;
   }
 }
