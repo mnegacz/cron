@@ -10,7 +10,7 @@ import lombok.val;
 @RequiredArgsConstructor(access = PRIVATE)
 class Cron {
 
-  private static final String FIELD_SEPARATOR = " ";
+  static final String FIELD_SEPARATOR = " ";
   private static final String ROW_SEPARATOR = "\n";
 
   private final Minute minute;
