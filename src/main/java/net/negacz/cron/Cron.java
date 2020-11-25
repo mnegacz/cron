@@ -17,6 +17,7 @@ class Cron {
   private final Minute minute;
   private final Hour hour;
   private final DayOfMonth dayOfMonth;
+  private final Month month;
 
   static Cron ofExpression(String expression) {
     val fields = expression.split(FIELD_SEPARATOR);
@@ -27,11 +28,12 @@ class Cron {
     val minute = Minute.ofExpression(fields[0]);
     val hour = Hour.ofExpression(fields[1]);
     val dayOfMonth = DayOfMonth.ofExpression(fields[2]);
-    return new Cron(minute, hour, dayOfMonth);
+    val month = Month.ofExpression(fields[3]);
+    return new Cron(minute, hour, dayOfMonth, month);
   }
 
   String asFormattedFieldString() {
-    return Stream.of(minute, hour, dayOfMonth)
+    return Stream.of(minute, hour, dayOfMonth, month)
         .map(Field::asFormattedFirst14SpaceSeparatedValues)
         .collect(joining(ROW_SEPARATOR));
   }
