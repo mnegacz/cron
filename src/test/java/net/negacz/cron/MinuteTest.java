@@ -53,4 +53,13 @@ class MinuteTest {
 
     assertThat(result).isEqualTo(Minute.ofValues(1, 16, 31, 46));
   }
+
+  @Test
+  void parsesAsteriskIncrementExpression() {
+    val expression = "*/15";
+
+    val result = Minute.ofExpression(expression);
+
+    assertThat(result).isEqualTo(Minute.ofValues(0, 15, 30, 45));
+  }
 }

@@ -12,6 +12,7 @@ class Subexpression {
   private static final String DASH = "-";
   private static final String ASTERISK = "*";
   private static final String INCREMENT = "/";
+  private static final String ASTERISK_INCREMENT = "*/";
 
   private final String expression;
   private final int minValue;
@@ -24,6 +25,11 @@ class Subexpression {
   IntStream asIntStream() {
     if (ASTERISK.equals(expression)) {
       return IntStream.rangeClosed(minValue, maxValue);
+    }
+    if (expression.contains(ASTERISK_INCREMENT)) {
+      val range = expression.split(INCREMENT);
+      val increment = Integer.parseInt(range[1]);
+      return IntStream.iterate(minValue, n -> n <= maxValue, n -> n + increment);
     }
     if (expression.contains(INCREMENT)) {
       val range = expression.split(INCREMENT);
