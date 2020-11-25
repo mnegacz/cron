@@ -1,5 +1,6 @@
 package net.negacz.cron;
 
+import static java.util.stream.IntStream.rangeClosed;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,5 +34,15 @@ class MinuteTest {
     val result = Minute.ofExpression(expression);
 
     assertThat(result).isEqualTo(Minute.ofValues(1, 2, 3));
+  }
+
+  @Test
+  void parsesAsteriskExpression() {
+    val expression = "*";
+    val expectedValues = rangeClosed(Minute.MIN_VALUE, Minute.MAX_VALUE).toArray();
+
+    val result = Minute.ofExpression(expression);
+
+    assertThat(result).isEqualTo(Minute.ofValues(expectedValues));
   }
 }

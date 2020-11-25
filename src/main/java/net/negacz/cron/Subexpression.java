@@ -10,20 +10,26 @@ import lombok.val;
 class Subexpression {
 
   private static final String DASH = "-";
+  private static final String ASTERISK = "*";
 
-  private final String value;
+  private final String expression;
+  private final int minValue;
+  private final int maxValue;
 
-  static Subexpression of(String value) {
-    return new Subexpression(value);
+  static Subexpression of(String expression, int minValue, int maxValue) {
+    return new Subexpression(expression, minValue, maxValue);
   }
 
   IntStream asIntStream() {
-    if (value.contains(DASH)) {
-      val range = value.split(DASH);
+    if (ASTERISK.equals(expression)) {
+      return IntStream.rangeClosed(minValue, maxValue);
+    }
+    if (expression.contains(DASH)) {
+      val range = expression.split(DASH);
       val start = Integer.parseInt(range[0]);
       val end = Integer.parseInt(range[1]);
       return IntStream.rangeClosed(start, end);
     }
-    return IntStream.of(Integer.parseInt(value));
+    return IntStream.of(Integer.parseInt(expression));
   }
 }
