@@ -2,7 +2,6 @@ package net.negacz.cron;
 
 import static java.util.stream.IntStream.rangeClosed;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import lombok.val;
 import org.junit.jupiter.api.Test;
@@ -44,5 +43,14 @@ class MinuteTest {
     val result = Minute.ofExpression(expression);
 
     assertThat(result).isEqualTo(Minute.ofValues(expectedValues));
+  }
+
+  @Test
+  void parsesIncrementExpression() {
+    val expression = "1/15";
+
+    val result = Minute.ofExpression(expression);
+
+    assertThat(result).isEqualTo(Minute.ofValues(1, 16, 31, 46));
   }
 }
